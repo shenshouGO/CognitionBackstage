@@ -172,6 +172,11 @@ public class AppInterface extends HttpServlet {
 		res.displayCognition(request,response);
 	}
 	
+	private void displayVideo(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		Resource res = new Resource();
+		res.displayVideo(request,response);
+	}
+	
 	//display list of cognition resource
 	private void displayCognitionResource(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		Resource res = new Resource();
@@ -241,6 +246,23 @@ public class AppInterface extends HttpServlet {
 		res.displayComment(request,response);
 	}
 	
+	private void createStudyComment(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		Comment res = new Comment();
+		res.createStudyComment(request,response);
+	}
+	
+	//delete comment
+	private void deleteStudyComment(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		Comment res = new Comment();
+		res.deleteStudyComment(request,response);
+	}
+
+	//display comment
+	private void displayStudyComment(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		Comment res = new Comment();
+		res.displayStudyComment(request,response);
+	}
+	
 	//match user and score
 	private void matchUserAndScore(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		Evaluation eva = new Evaluation();
@@ -284,6 +306,16 @@ public class AppInterface extends HttpServlet {
 		eva.deleteResourceGood(request,response);
 	}
 	
+	private void createResourceDislike(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		Evaluation eva = new Evaluation();
+		eva.createResourceDislike(request,response);
+	}
+	
+	private void deleteResourceDislike(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		Evaluation eva = new Evaluation();
+		eva.deleteResourceDislike(request,response);
+	}
+	
 	//share cognition
 	private void shareCognition(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		Evaluation eva = new Evaluation();
@@ -310,6 +342,11 @@ public class AppInterface extends HttpServlet {
 	private void displayConcernArticle(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		Resource res = new Resource();
 		res.displayConcernArticle(request,response);
+	}
+	
+	private void displaySql(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		Resource res = new Resource();
+		res.displaySql(request,response);
 	}
 	
 	//follow user

@@ -262,6 +262,77 @@ public class Evaluation {
 		}
 	}
 	
+	public void createResourceDislike(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		String u_id = request.getParameter("u_id");
+		String r_id = request.getParameter("r_id");
+		String sql;
+		JSONObject obj;
+		int num;
+		
+		try
+		{
+			sql = "insert resource_dislike(r_id,u_id) values(?,?)";
+			num = db.update(sql,r_id, u_id);
+			if(num == 1)
+			{
+				sql = "update cognition_resource set dislike = dislike+1  where id = ?";
+				num = db.update(sql, r_id);
+				if(num == 1)
+				{
+					sql = "select id from resource_dislike where u_id=? and r_id = ?";
+					obj = db.query(sql,u_id,r_id);
+					if(obj.isEmpty())
+						response.getWriter().write("Give dislike unsuccessfully");
+					else
+						response.getWriter().write(obj.getJSONObject("0").get("id").toString());
+				}
+				else
+					response.getWriter().write("Update dislike unsuccessfully");
+			}
+			else
+				response.getWriter().write("Insert dislike unsuccessfully");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteResourceDislike(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		String d_id = request.getParameter("ID");
+		System.out.println("d_id = " + d_id);
+		String sql;
+		int num;
+		JSONObject obj;
+		
+		try
+		{
+			sql = "select r_id from resource_dislike where id = ?";
+			obj = db.query(sql, d_id);
+			if(obj.isEmpty())
+				response.getWriter().write("Dislike is unexited");
+			else
+			{
+				int c_r_id = obj.getJSONObject("0").getInt("r_id");
+				sql = "delete from resource_dislike where id = ?";
+				num = db.update(sql, d_id);
+				if(num == 1)
+				{
+					sql = "update cognition_resource set dislike = dislike - 1 where id = ?";
+					num = db.update(sql, c_r_id);
+					if(num == 1)
+						response.getWriter().write("Delete successfully");
+					else
+						response.getWriter().write("update unsuccessfully");
+				}
+				else
+					response.getWriter().write("Delete unsuccessfully");
+			}
+			
+				
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void share(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		String id = request.getParameter("ID");
 		

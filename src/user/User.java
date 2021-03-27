@@ -40,16 +40,30 @@ public class User {
 		
 		try
 		{
-			sql = "insert into user(name,password,birthday,age,sex,job,telephone,email,register_time,login_last_time) values(?,?,?,?,?,?,?,?,?,?)";
-			num = db.update(sql, name,password,birthday,age,sex,job,telephone,email,register_time,login_last_time);
-			if(num == 1)
+			sql = "select name from user where name = ?";
+			obj = db.query(sql, name);
+			if(obj.isEmpty())
 			{
-				sql = "select id,name,img_name from user where name = ?";
-				obj = db.query(sql, name);
-				response.getWriter().write(obj.getJSONObject("0").toString());
+				sql = "select telephone from user where telephone = ?";
+				obj = db.query(sql, telephone);
+				if(obj.isEmpty()) 
+				{
+					sql = "insert into user(name,password,birthday,age,sex,job,telephone,email,register_time,login_last_time) values(?,?,?,?,?,?,?,?,?,?)";
+					num = db.update(sql, name,password,birthday,age,sex,job,telephone,email,register_time,login_last_time);
+					if(num == 1)
+					{
+						sql = "select id,name,img_name from user where name = ?";
+						obj = db.query(sql, name);
+						response.getWriter().write(obj.getJSONObject("0").toString());
+					}
+					else
+						response.getWriter().write("false");
+				}
+				else
+					response.getWriter().write("Telephone Registered");
 			}
 			else
-				response.getWriter().write("false");
+				response.getWriter().write("Name Registered");
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

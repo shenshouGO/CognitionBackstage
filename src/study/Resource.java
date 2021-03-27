@@ -59,7 +59,7 @@ public class Resource {
 					num = db.update(sql,u_id);
 					if(num == 1)
 					{
-						sql = "update cognition_resource set number = number + 1  where id = ?";
+						sql = "update cognition_resource set comment = comment + 1  where id = ?";
 						num = db.update(sql,c_r_id);
 						if(num == 1)
 						{
@@ -146,7 +146,7 @@ public class Resource {
 		
 		try
 		{
-			sql = "select * from article where u_id = ?";
+			sql = "select * from cognition_resource where u_id = ? and type = '动态' ";
 			obj = db.query(sql, u_id);
 			response.getWriter().write(obj.toString());
 		}catch(SQLException e) {
@@ -190,14 +190,32 @@ public class Resource {
 		}
 	}
 	
+	public void displayVideo(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		String type =  request.getParameter("type");
+		String sql;
+		int num;
+		JSONObject obj;
+		
+		try
+		{
+			sql = "select * from cognition_resource where type = ? order by time desc";
+			System.out.println(sql);
+			obj = db.query(sql,type);
+			response.getWriter().write(obj.toString());
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void createScene(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		String u_id = request.getParameter("u_id");
 		String u_name = request.getParameter("u_name");
 		String u_img = request.getParameter("u_img");
 		String scene = request.getParameter("scene");
 		System.out.println(scene);
-		String theme = " ";
-		String type = " ";
+//		System.out.println(java.net.URLDecoder.decode(scene,"UTF-8"));
+		String theme = request.getParameter("theme");
+		String type = request.getParameter("type");
 		System.out.println(request.getParameter("time"));
 		long time = Long.parseLong(request.getParameter("time"));
 		
@@ -506,7 +524,7 @@ public class Resource {
 		
 		try
 		{
-			sql = "select * from cognition_resource order by number desc";
+			sql = "select * from cognition_resource order by score desc";
 			obj = db.query(sql);
 			response.getWriter().write(obj.toString());
 		}catch(SQLException e) {
@@ -588,6 +606,24 @@ public class Resource {
 			sql = "select * from cognition_result order by score desc limit 20";
 			obj = db.query(sql);
 			response.getWriter().write(obj.toString());
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void displaySql(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		String sql = request.getParameter("sql");
+		JSONObject obj;
+		System.out.println(sql);
+		
+		try
+		{
+			if(sql == null) {
+				response.getWriter().write("");
+			}else {
+				obj = db.query(sql);
+				response.getWriter().write(obj.toString());
+			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -678,7 +714,7 @@ public class Resource {
 		
 		try
 		{
-			os = new FileOutputStream("cognition/" + file);
+			os = new FileOutputStream("f:/resource/" + file);
 			//E:\Software\jee-photon\eclipse\file
 			os.write(bytes);
 			os.flush();
