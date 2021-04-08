@@ -206,20 +206,44 @@ public class User {
 
 	public void modifyPassword(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		int u_id = Integer.parseInt(request.getParameter("u_id"));
+		String original_password = request.getParameter("original_password");
 		String password = request.getParameter("password");
 		String sql;
 		int num;
+		JSONObject obj;
+		String real_password;
 		
 		try
 		{
-			sql = "update user set password = ? where id = ?";
-			num = db.update(sql, password, u_id);
-			if(num == 1)
-			{
-				response.getWriter().write("Modify password successfully");
+			if(original_password == null) {
+				sql = "update user set password = ? where id = ?";
+				num = db.update(sql, password, u_id);
+				if(num == 1)
+				{
+					response.getWriter().write("Modify password successfully");
+				}
+				else
+					response.getWriter().write("Modify password unsuccessfully");
+			}else {
+				sql = "select password from user where id = ?";
+				obj = db.query(sql, u_id);
+				real_password = obj.getJSONObject("0").get("password").toString();
+				if(real_password.equals(original_password)){
+					sql = "update user set password = ? where id = ?";
+					num = db.update(sql, password, u_id);
+					if(num == 1)
+					{
+						response.getWriter().write("Modify password successfully");
+					}
+					else
+						response.getWriter().write("Modify password unsuccessfully");
+				}
+				else
+					response.getWriter().write("Password error");
 			}
-			else
-				response.getWriter().write("Modify password unsuccessfully");
+			
+			
+			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

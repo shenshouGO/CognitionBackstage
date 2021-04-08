@@ -45,7 +45,7 @@ public class Evaluation {
 			num = db.update(sql, u_id,c_r_id,validity_score,novelty_score);
 			if( num == 1)
 			{
-				sql = "update cognition_result set validity_score = ? , novelty_score = ? , number = ? where id = ?";
+				sql = "update cognition_result set validity_score = ? , novelty_score = ? , number = ? , score = score + 2 where id = ?";
 				num = db.update(sql,v_s,n_s,number,c_r_id);
 				if( num == 1)
 				{
@@ -337,7 +337,7 @@ public class Evaluation {
 		String id = request.getParameter("ID");
 		
 		try {
-			String sql = "update cognition_result set share = share+1, score = score+2 where id = ?";
+			String sql = "update cognition_result set share = share+1, score = score+3 where id = ?";
 			int num = db.update(sql, id);
 			if(num == 1)
 				response.getWriter().write("Share successfully");
@@ -348,4 +348,42 @@ public class Evaluation {
 		}
 	}
 	
+	public void createGameIntegral(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		String name = request.getParameter("name");
+		String integral = request.getParameter("integral");
+		String sql;
+		JSONObject obj;
+		int num;
+		long  time = db.getStamp();
+		
+		try {
+			sql = "select id from user where name = ?";
+			obj = db.query(sql, name);
+			if(obj.isEmpty())
+				response.getWriter().write("User is unexited");
+			else
+			{
+				int u_id = obj.getJSONObject("0").getInt("id");
+				sql = "insert into integral(score,u_id,source,time) values(?,?,'游戏积分',?)";
+				num = db.update(sql,integral,u_id , time);
+				if(num == 1)
+				{
+					sql = "update user set integral_sum = integral_sum + ? , integral_game = integral_game + ? where id = ?";
+					num = db.update(sql,integral,integral,u_id);
+					if(num == 1)
+					{
+						response.getWriter().write("Update successfully");
+					}
+					else
+					{
+						response.getWriter().write("Update unsuccessfully");
+					}
+				}
+				else
+					response.getWriter().write("Insert unsuccessfully");
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

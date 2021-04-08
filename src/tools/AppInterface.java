@@ -349,6 +349,11 @@ public class AppInterface extends HttpServlet {
 		res.displaySql(request,response);
 	}
 	
+	private void createGameIntegral(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		Evaluation eva = new Evaluation();
+		eva.createGameIntegral(request,response);
+	}
+	
 	//follow user
 	private void follow(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		User user = new User();

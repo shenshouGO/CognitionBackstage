@@ -59,7 +59,7 @@ public class Resource {
 					num = db.update(sql,u_id);
 					if(num == 1)
 					{
-						sql = "update cognition_resource set comment = comment + 1  where id = ?";
+						sql = "update cognition_resource set comment = comment + 1, score = score +2  where id = ?";
 						num = db.update(sql,c_r_id);
 						if(num == 1)
 						{
@@ -233,11 +233,11 @@ public class Resource {
 				num = db.update(sql, u_id,u_name,u_img,1,theme,type,file,time);
 				if(num == 1)
 				{
-					sql = "insert into integral(score,u_id,source,time) values(5,?,'发布材料',?)";
+					sql = "insert into integral(score,u_id,source,time) values(2,?,'发表负性情景',?)";
 					num = db.update(sql,u_id , time);
 					if(num == 1)
 					{
-						sql = "update user set integral_sum = integral_sum + 5 , integral_forum = integral_forum + 5 where id = ?";
+						sql = "update user set integral_sum = integral_sum + 2 , integral_forum = integral_forum + 2 where id = ?";
 						num = db.update(sql,u_id);
 						if(num == 1)
 						{

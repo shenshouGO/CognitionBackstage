@@ -43,15 +43,15 @@ DB db = new DB();
 			num = db.update(sql, c_r_id,u_id,u_name,u_img,c_c_id,r_u_id,r_u_name,r_u_img,comment,time);
 			if(num == 1)
 			{
-				sql = "update cognition_result set comment = comment + 1 where id = ?";
+				sql = "update cognition_result set comment = comment + 1, score = score + 2 where id = ?";
 				num = db.update(sql, c_r_id);
 				if(num == 1)
 				{
-					sql = "insert into integral(score,u_id,source,time) values(2,?,'发表评论',?)";
+					sql = "insert into integral(score,u_id,source,time) values(1,?,'发表评论或回复',?)";
 					num = db.update(sql,u_id , time);
 					if(num == 1)
 					{
-						sql = "update user set integral_sum = integral_sum + 2 , integral_forum = integral_forum + 2 where id = ?";
+						sql = "update user set integral_sum = integral_sum + 1 , integral_forum = integral_forum + 1 where id = ?";
 						num = db.update(sql,u_id);
 						if(num == 1)
 						{
@@ -167,15 +167,15 @@ DB db = new DB();
 			num = db.update(sql, s_r_id,u_id,u_name,u_img,s_c_id,r_u_id,r_u_name,r_u_img,comment,time);
 			if(num == 1)
 			{
-				sql = "update cognition_resource set comment = comment + 1 where id = ?";
+				sql = "update cognition_resource set comment = comment + 1,score = score + 2 where id = ?";
 				num = db.update(sql, s_r_id);
 				if(num == 1)
 				{
-					sql = "insert into integral(score,u_id,source,time) values(2,?,'发表评论',?)";
+					sql = "insert into integral(score,u_id,source,time) values(1,?,'发表评论或回复',?)";
 					num = db.update(sql,u_id , time);
 					if(num == 1)
 					{
-						sql = "update user set integral_sum = integral_sum + 2 , integral_forum = integral_forum + 2 where id = ?";
+						sql = "update user set integral_sum = integral_sum + 1 , integral_forum = integral_forum + 1 where id = ?";
 						num = db.update(sql,u_id);
 						if(num == 1)
 						{
