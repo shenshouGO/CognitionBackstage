@@ -23,12 +23,22 @@ import user.User;
 @WebServlet("/*")
 public class AppInterface extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private User user;
+	private Resource resource;
+	private Evaluation evaluation;
+	private Comment comment;
+	private DB db;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public AppInterface() {
         super();
+        db = new DB();
+        user = new User(db);
+        resource = new Resource(db);
+        comment = new Comment(db);
+        evaluation = new Evaluation(db);
         // TODO Auto-generated constructor stub
     }
 
@@ -78,295 +88,257 @@ public class AppInterface extends HttpServlet {
 	
 	//register
 	private void register(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		User user = new User();
 		user.register(request,response);
 	}
 	
 	//check telephone whether is registered
 	private void checkTelephone(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		User user = new User();
 		user.checkTelephone(request,response);
 	}
 	
 	//check name whether is registered
 	private void checkName(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		User user = new User();
 		user.checkName(request,response);
 	}
 	
 	//login with password
 	private void passwordLogin(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		User user = new User();
 		user.passwordLogin(request,response);
 	}
 
 	//check the question of password
 	private void checkPasswordQuestion(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		User user = new User();
 		user.checkPasswordQuestion(request,response);
 	}
 	
 	//set the question of password
 	private void setPasswordQuestion(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		User user = new User();
 		user.setPasswordQuestion(request,response);
 	}
 	
 	//check the answer of password
 	private void answerPasswordQuestion(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		User user = new User();
 		user.answerPasswordQuestion(request,response);
 	}
 
 	//modify the password
 	private void modifyPassword(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		User user = new User();
 		user.modifyPassword(request,response);
 	}
 	
 	//modify the password
 	private void modifyData(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		User user = new User();
 		user.modifyData(request,response);
 	}
 	
 	//write test
 	private void write(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.write(request,response);
+		resource.write(request,response);
 	}
 	
 	//read test
 	private void read(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.read(request,response);
+		resource.read(request,response);
 	}
 	
 	//create cognition
 	private void createCognition(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.createCognition(request,response);
+		resource.createCognition(request,response);
 	}
 	
 	//upload cognition file
 	private void uploadCognitionFile(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.uploadCognitionFile(request,response);
+		resource.uploadCognitionFile(request,response);
 	}
 	
 	//delete cognition
 	private void deleteCognition(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.deleteCognition(request,response);
+		resource.deleteCognition(request,response);
 	}
 	
 	//modify cognition
 	private void modifyCognition(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.modifyCognition(request,response);
+		resource.modifyCognition(request,response);
 	}
 	
 	//display cognition
 	private void displayCognition(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.displayCognition(request,response);
+		resource.displayCognition(request,response);
 	}
 	
 	private void displayVideo(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.displayVideo(request,response);
+		resource.displayVideo(request,response);
 	}
 	
 	//display list of cognition resource
 	private void displayCognitionResource(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.displayCognitionResource(request,response);
+		resource.displayCognitionResource(request,response);
 	}
 	
 	private void createScene(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.createScene(request,response);
+		resource.createScene(request,response);
+	}
+	
+	private void deleteScene(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		resource.deleteScene(request,response);
 	}
 	
 	private void displayScene(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.displayScene(request,response);
+		resource.displayScene(request,response);
 	}
 	
 	private void screenCognitionResource(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.screenCognitionResource(request,response);
+		resource.screenCognitionResource(request,response);
 	}
 	
 	//match user and cognition
 	private void matchUserAndCognition(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.matchUserAndCognition(request,response);
+		resource.matchUserAndCognition(request,response);
 	}
 	
 	//display index cognition
 	private void indexDisplayCognition(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.indexDisplayCognition(request,response);
+		resource.indexDisplayCognition(request,response);
 	}
 	
 	//share cognition to dynamic module
 	private void shareToDynamic(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.shareToDynamic(request,response);
+		resource.shareToDynamic(request,response);
 	}
 	
 	//display dynamic cognition
 	private void displayDynamic(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.displayDynamic(request,response);
+		resource.displayDynamic(request,response);
 	}
 	
 	// reward dynamic module users
 	private void rewardDynamic(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.rewardDynamic(request,response);
+		resource.rewardDynamic(request,response);
 	}
 	
 	//create comment
 	private void createComment(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Comment res = new Comment();
-		res.createComment(request,response);
+		comment.createComment(request,response);
 	}
 	
 	//delete comment
 	private void deleteComment(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Comment res = new Comment();
-		res.deleteComment(request,response);
+		comment.deleteComment(request,response);
 	}
 
 	//display comment
 	private void displayComment(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Comment res = new Comment();
-		res.displayComment(request,response);
+		comment.displayComment(request,response);
 	}
 	
 	private void createStudyComment(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Comment res = new Comment();
-		res.createStudyComment(request,response);
+		comment.createStudyComment(request,response);
 	}
 	
 	//delete comment
 	private void deleteStudyComment(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Comment res = new Comment();
-		res.deleteStudyComment(request,response);
+		comment.deleteStudyComment(request,response);
 	}
 
 	//display comment
 	private void displayStudyComment(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Comment res = new Comment();
-		res.displayStudyComment(request,response);
+		comment.displayStudyComment(request,response);
 	}
 	
 	//match user and score
 	private void matchUserAndScore(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Evaluation eva = new Evaluation();
-		eva.matchUserAndScore(request,response);
+		evaluation.matchUserAndScore(request,response);
 	}
 	
 	//create score
 	private void createScore(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Evaluation eva = new Evaluation();
-		eva.createScore(request,response);
+		evaluation.createScore(request,response);
 	}
 	
 	//match user and cognition good
 	private void matchUserAndCognitionGood(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Evaluation eva = new Evaluation();
-		eva.matchUserAndCognitionGood(request,response);
+		evaluation.matchUserAndCognitionGood(request,response);
 	}
 	
 	private void createCognitionGood(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Evaluation eva = new Evaluation();
-		eva.createCognitionGood(request,response);
+		evaluation.createCognitionGood(request,response);
 	}
 	
 	private void deleteCognitionGood(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Evaluation eva = new Evaluation();
-		eva.deleteCognitionGood(request,response);
+		evaluation.deleteCognitionGood(request,response);
 	}
 	
 	private void matchUserAndResourceGood(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Evaluation eva = new Evaluation();
-		eva.matchUserAndResourceGood(request,response);
+		evaluation.matchUserAndResourceGood(request,response);
 	}
 	
 	private void createResourceGood(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Evaluation eva = new Evaluation();
-		eva.createResourceGood(request,response);
+		evaluation.createResourceGood(request,response);
 	}
 	
 	private void deleteResourceGood(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Evaluation eva = new Evaluation();
-		eva.deleteResourceGood(request,response);
+		evaluation.deleteResourceGood(request,response);
 	}
 	
 	private void createResourceDislike(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Evaluation eva = new Evaluation();
-		eva.createResourceDislike(request,response);
+		evaluation.createResourceDislike(request,response);
 	}
 	
 	private void deleteResourceDislike(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Evaluation eva = new Evaluation();
-		eva.deleteResourceDislike(request,response);
+		evaluation.deleteResourceDislike(request,response);
 	}
 	
 	//share cognition
 	private void shareCognition(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Evaluation eva = new Evaluation();
-		eva.share(request,response);
+		evaluation.share(request,response);
 	}
 	
 	//create article
 	private void createArticle(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.createArticle(request,response);
+		resource.createArticle(request,response);
 	}
 	
 	//delete article
 	private void deleteArticle(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.deleteArticle(request,response);
+
+		resource.deleteArticle(request,response);
 	}
 	
 	private void displayArticle(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.displayArticle(request,response);
+
+		resource.displayArticle(request,response);
 	}
 	
 	private void displayConcernArticle(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.displayConcernArticle(request,response);
+
+		resource.displayConcernArticle(request,response);
 	}
 	
 	private void displaySql(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Resource res = new Resource();
-		res.displaySql(request,response);
+
+		resource.displaySql(request,response);
 	}
 	
 	private void createGameIntegral(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Evaluation eva = new Evaluation();
-		eva.createGameIntegral(request,response);
+
+		evaluation.createGameIntegral(request,response);
+	}
+	
+	private void createAssessScore(HttpServletRequest request, HttpServletResponse response) throws Exception{
+
+		evaluation.createAssessScore(request,response);
 	}
 	
 	//follow user
 	private void follow(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		User user = new User();
 		user.follow(request,response);
 	}
 	
 	private void displayFollow(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		User user = new User();
 		user.displayFollow(request,response);
 	}
 	
 	private void displayFollowMe(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		User user = new User();
 		user.displayFollowMe(request,response);
 	}
 }

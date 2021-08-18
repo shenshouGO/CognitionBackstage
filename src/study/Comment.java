@@ -17,7 +17,11 @@ import net.sf.json.JSONObject;
 import tools.DB;
 
 public class Comment {
-DB db = new DB();
+	private DB db;
+	
+	public Comment(DB db) {
+		this.db = db;
+	}
 	
 	public void createComment(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		String c_r_id = request.getParameter("c_r_id");
@@ -47,19 +51,21 @@ DB db = new DB();
 				num = db.update(sql, c_r_id);
 				if(num == 1)
 				{
-					sql = "insert into integral(score,u_id,source,time) values(1,?,'发表评论或回复',?)";
-					num = db.update(sql,u_id , time);
-					if(num == 1)
-					{
-						sql = "update user set integral_sum = integral_sum + 1 , integral_forum = integral_forum + 1 where id = ?";
-						num = db.update(sql,u_id);
-						if(num == 1)
-						{
-							response.getWriter().write("Create successfully");
-						}
-					}
-					else
-						response.getWriter().write("Upload unsuccessfully");
+//					sql = "insert into integral(score,u_id,source,time) values(1,?,'发表评论或回复',?)";
+//					num = db.update(sql,u_id , time);
+//					if(num == 1)
+//					{
+//						sql = "update user set integral_sum = integral_sum + 1 , integral_forum = integral_forum + 1 where id = ?";
+//						num = db.update(sql,u_id);
+//						if(num == 1)
+//						{
+//							response.getWriter().write("Create successfully");
+//						}
+//					}
+//					else
+//						response.getWriter().write("Upload unsuccessfully");
+					
+					response.getWriter().write("Create successfully");
 				}
 				else
 					response.getWriter().write("unsuccessfully");

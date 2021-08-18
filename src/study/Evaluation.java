@@ -12,7 +12,11 @@ import net.sf.json.JSONObject;
 import tools.DB;
 
 public class Evaluation {
-	DB db = new DB();
+	private DB db;
+	
+	public Evaluation(DB db) {
+		this.db = db;
+	}
 	
 	public void createScore(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		String u_id = request.getParameter("u_id");
@@ -382,6 +386,29 @@ public class Evaluation {
 				else
 					response.getWriter().write("Insert unsuccessfully");
 			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void createAssessScore(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		String a_id = request.getParameter("a_id");
+		String u_id = request.getParameter("u_id");
+		String score = request.getParameter("score");
+		String sql;
+		JSONObject obj;
+		int num;
+		long  time = db.getStamp();
+		
+		try {
+			sql = "insert into assess_score(a_id,u_id,score,time) values(?,?,?,?)";
+			num = db.update(sql,a_id,u_id,score, time);
+			if(num == 1)
+			{
+				response.getWriter().write("Insert successfully");
+			}
+			else
+				response.getWriter().write("Insert unsuccessfully");
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

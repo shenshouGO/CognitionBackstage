@@ -28,7 +28,11 @@ import tools.DB;
 
 
 public class Resource {
-	DB db = new DB();
+	private DB db;
+	
+	public Resource(DB db) {
+		this.db = db;
+	}
 	
 	public void createCognition(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		String u_id = request.getParameter("ID");
@@ -51,15 +55,24 @@ public class Resource {
 			num = db.update(sql, u_id,u_name,u_img,c_r_id,c_r_file,file,time);
 			if(num == 1)
 			{
+				
 				sql = "insert into integral(score,u_id,source,time) values(2,?,'发布认知重评',?)";
 				num = db.update(sql,u_id , time);
 				if(num == 1)
-				{
+				{				
 					sql = "update user set integral_sum = integral_sum + 2 , integral_forum = integral_forum + 2 where id = ?";
 					num = db.update(sql,u_id);
 					if(num == 1)
 					{
-						sql = "update cognition_resource set comment = comment + 1, score = score +2  where id = ?";
+						sql = "select type from cognition_resource where id = ? ";
+						obj = db.query(sql, c_r_id);
+						String type = obj.getJSONObject("0").getString("type");
+						
+						if(type.equals("情景")) {
+							sql = "update cognition_resource set comment = comment + 1, score = score +2  where id = ?";
+						}else {
+							sql = "update cognition_resource set comment = comment + 1, score = score +3  where id = ?";
+						}
 						num = db.update(sql,c_r_id);
 						if(num == 1)
 						{
@@ -260,6 +273,27 @@ public class Resource {
 		}
 	}
 	
+	public void deleteScene(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		String s_id = request.getParameter("ID");
+		String sql;
+		int num;
+		JSONObject obj;
+		
+		try
+		{
+			sql = "delete from cognition_resource where id = ?";
+			num = db.update(sql, s_id);
+			if(num == 1)
+			{
+				response.getWriter().write("Delete successfully");
+			}
+			else
+				response.getWriter().write("Delete unsuccessfully");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void displayScene(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		String sql;
 		int num;
@@ -330,8 +364,8 @@ public class Resource {
 		
 		String fileName = null;
 		String files = "";
-		String route = "f:/resource/"+u_id+"_"+time+"/";
-//		String route = "/usr/local/file/";
+//		String route = "f:/resource/"+u_id+"_"+time+"/";
+		String route = "/opt/resource/"+u_id+"_"+time+"/";
 		File file = new File(route);
         if (!file.exists()) {
             file.mkdirs();
@@ -404,8 +438,8 @@ public class Resource {
 			System.out.println(cognition);
 			byte[] bytes = cognition.getBytes("UTF-8");
 			String fileName = u_id + "_" + time + ".txt";
-			OutputStream os = new FileOutputStream("f:/resource/" + fileName);
-//			OutputStream os = new FileOutputStream("/usr/local/file/" + fileName);
+//			OutputStream os = new FileOutputStream("f:/resource/" + fileName);
+			OutputStream os = new FileOutputStream("/opt/resource/" + fileName);
 			os.write(bytes);
 			os.flush();
 			if(os!=null)
@@ -734,7 +768,8 @@ public class Resource {
 		
 		try
 		{
-			is = new FileInputStream("f:/resource/" + file);
+//			is = new FileInputStream("f:/resource/" + file);
+			is = new FileInputStream("/opt/resource/" + file);
 			InputStreamReader reader = new InputStreamReader(is,"UTF-8");
 			BufferedReader br = new BufferedReader(reader);
 			String line;

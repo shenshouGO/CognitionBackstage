@@ -11,7 +11,11 @@ import net.sf.json.JSONObject;
 import tools.DB;
 
 public class User {
-	DB db = new DB();
+	private DB db;
+	
+	public User(DB db) {
+		this.db = db;
+	}
 	
 	public void register(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		String name = request.getParameter("name");
